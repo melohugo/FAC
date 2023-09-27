@@ -1,0 +1,30 @@
+.data
+.text
+main:
+	#le um inteiro N do stdin
+	#e joga o valor em $t0
+
+	li $v0, 5
+	syscall
+
+	move $t0, $v0
+
+	#le um inteiro M do stdin
+	#e joga o valor em $t1
+
+	li $v0, 5
+	syscall
+
+	move $t1, $v0
+
+	#subitrai e acha a saida
+	sub $s0,$t0,$t1
+
+	#inprime na tela
+	li $v0, 1
+	move $a0, $s0
+	syscall
+
+	#encerra o programa
+	li $v0, 10
+	syscall
