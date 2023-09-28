@@ -1,0 +1,52 @@
+.data
+branco : .asciiz "\n"
+.text
+main:
+	#lendo D
+	li $v0, 5
+	syscall
+
+	move $s0, $v0	
+
+	#lendo A
+	li $v0, 5
+	syscall
+
+	move $s1, $v0	
+
+	#lendo N
+	li $v0, 5
+	syscall
+
+	move $s2, $v0	
+
+
+	#achando N-1 de D + (N-1)*A
+	li $t9,1
+	sub $t8,$s2,$t9
+
+	#multiplicando por A
+	mul $t3,$t8,$s1
+
+
+	#finalizando a conta da diaria
+	add $t1,$s0,$t3
+
+	#calculando os dias
+	li $t4,31
+	sub $t0,$t4,$t8
+
+	#calculando o total e printando
+	mul $t2,$t0,$t1
+
+	#imprimindo o valor na tela
+	li $v0, 1
+	move $a0, $t2
+	syscall
+	li $v0, 4
+	la $a0, branco
+	syscall
+
+	#encerra o programa
+	li $v0, 10
+	syscall
