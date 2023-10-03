@@ -1,0 +1,34 @@
+	#lendo i
+	li 	$v0, 5
+	syscall
+
+	move 	$t0, $v0
+
+	#lendo j
+	li 	$v0, 5
+	syscall
+
+	move 	$t1, $v0
+
+	#lendo N
+	li 	$v0, 5
+	syscall
+
+	move 	$t2, $v0
+
+	
+	#puxando os dados de A[j] e armazenado em t9
+	move	$t5, $s0
+	li	$t7, 4
+	mul	$t1, $t1, $t7
+	add 	$t5,$s0,$t1
+	lw	$t9,0($t5)
+
+	#somando A[j] e N
+	add	$t3,$t9,$t2
+
+	#carregando A[j] e armazenando a soma
+	mul 	$t0,$t0,$t7
+	add 	$t5,$s0,$t0
+	lw 	$t8,0($t5)
+	sw 	$t3,0($t5)
