@@ -1,0 +1,40 @@
+.data
+.text
+main:
+	li	$v0, 5
+	syscall
+	move	$s0, $v0
+	
+	li	$v0, 5
+	syscall
+	move	$s1, $v0
+	
+	addi	$t2, $zero, 1
+loop:
+	slt	$t0, $t2, $s0
+	beq	$t0, $zero, exit
+	
+	li	$v0, 5
+	syscall
+	move	$t1, $v0
+
+	slt	$t0, $s1, $t1
+	bne	$t0, $zero, troca
+	j 	naotroca
+troca:
+	move	$s1, $t1	
+naotroca:
+	addi	$t2, $t2, 1
+	j	loop
+exit:
+
+	li	$v0, 1
+	move	$a0, $s1
+	syscall
+
+	li	$v0, 11
+	li	$a0, 10
+	syscall
+
+	li	$v0, 10
+	syscall

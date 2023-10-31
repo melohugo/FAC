@@ -1,0 +1,19 @@
+contaBits:
+        li      $t0, 1
+        add     $t3, $zero, $zero
+        add     $t4, $zero, $zero
+
+loop:
+        slti    $t1, $t4, 32
+        beq     $t1, $zero, exit
+
+        and     $t1, $t0, $a0
+        beq     $t1, $zero, naosoma
+        addi    $t3, $t3, 1
+naosoma:
+        srl     $a0, $a0, 1
+        addi    $t4, $t4, 1
+        j       loop
+exit:
+        move    $v0, $t3
+        jr      $ra
