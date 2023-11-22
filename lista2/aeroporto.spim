@@ -1,0 +1,169 @@
+.data
+	teste: .asciiz "Teste "
+.text
+main:
+	li	$v0, 9
+	li	$a0, 400
+	syscall
+	move	$s2, $v0
+	
+	addi	$s3, $zero, 1
+
+leitura:
+	move	$a0, $s2
+	jal	zera	
+
+	li	$v1, 0
+	jal	lenumero
+
+	move	$s0, $v1
+
+	li	$v1, 0
+	jal	lenumero
+
+	move	$s1, $v1
+
+
+	add	$t5, $zero, $zero
+loop:
+
+	slt	$t1, $t5, $s0
+	beq	$t1, $zero, exit
+
+	li	$v1, 0
+	jal	lenumero
+
+	move	$t0, $v1
+
+	li	$v1, 0
+	jal	lenumero
+
+	move	$t1, $v1
+	
+	sll	$t0, $t0, 2
+	add	$t0, $t0, $s2
+	lw	$t2, 0($t0)
+
+	addi	$t2, $t2, 1
+	sw	$t2, 0($t0)
+	
+	sll	$t1, $t1, 2
+	add	$t1, $t1, $s2
+	lw	$t2, 0($t1)
+
+	addi	$t2, $t2, 1
+	sw	$t2, 0($t1)
+
+
+	addi	$t5, $t5, 1
+	j	loop
+exit:
+	beq	$s1, $zero, para
+
+	la	$a0, teste
+	li	$v0, 4
+	syscall
+	
+	li	$v0, 1
+	move	$a0, $s3
+	syscall
+	
+	move	$a1, $s2
+	jal	maior
+	
+	addi	$s3, $s3, 1
+	j	leitura
+para:
+	li	$v0, 10
+	syscall
+	
+	
+
+
+zera:
+	add	$t0, $zero, $zero
+for:
+	slti	$t1, $t0, 101
+	beq	$t1, $zero, rof
+	
+	sll	$t1, $t0, 2
+	add	$t1, $a0, $t1
+	sw	$zero, 0($t1)
+	addi	$t0, $t0, 1	
+	j	for
+rof:
+	jr	$ra
+
+
+maior:
+
+        add    $t2, $zero, $zero
+	add	$t3, $zero, $zero
+while:
+        slti     $t0, $t2, 101
+        beq     $t0, $zero, parou
+
+	sll	$t0, $t2, 2
+	add	$t0, $t0, $a1
+	lw	$t1, 0($t0)
+
+	li	$v0, 1
+	move	$a0, $t1
+	syscall
+
+        slt     $t0, $t1, $t3
+        bne     $t0, $zero, troca
+        j       naotroca
+troca:
+        move    $t3, $t1
+naotroca:
+        addi    $t2, $t2, 1
+        j       while
+parou:
+
+        addi    $t2, $zero, 1
+printm:
+        slti    $t0, $t2, 101
+        beq     $t0, $zero, parouD
+
+	sll	$t0, $t2, 2
+	add	$t2, $t2, $a1
+	lw	$t1, 0($t2)
+
+        slt     $t0, $t1, $t3
+        bne     $t0, $zero, naoprinta
+	li	$v0, 1
+	move	$a0, $t1
+	syscall	
+
+	li	$v0, 11
+	li	$a0, 32
+	syscall
+naoprinta:
+        addi    $t2, $t2, 1
+        j       printm
+parouD:
+
+
+        li      $v0, 1
+        move    $a0, $s1
+        syscall
+
+	jr	$ra
+
+
+lenumero:
+
+	li	$v0, 12
+	syscall
+	move	$t6, $v0
+
+	slti	$t4, $t6, 47
+	beq	$t4, $zero, sai
+	li	$t4, 10
+	mul	$v1, $v1, $t4
+	add	$v1, $v1, $t6
+	j	lenumero
+
+sai:
+	jr	$ra

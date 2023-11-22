@@ -1,6 +1,6 @@
 elemDistintos:
         li      $t0, 1
-        add     $t3, $zero, $zero
+        li	$t3, 1
         lw      $t1, 0($a0)
 
 loop:
