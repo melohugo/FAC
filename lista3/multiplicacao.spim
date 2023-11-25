@@ -1,0 +1,55 @@
+multfac:
+
+	li	$t0, 1
+	li	$t8, 0
+	
+	li	$t3, 0
+	li	$t4, 0
+
+	slt	$t2, $a0, $zero
+	beq	$t2, $zero, proximo
+
+	nor	$a0, $a0,$zero
+	addi	$a0, $a0, 1
+
+	li	$t3, 1
+
+proximo:
+	slt	$t2, $a1, $zero
+	beq	$t2, $zero, mult
+
+	nor	$a1, $a1,$zero
+	addi	$a1, $a1, 1
+
+	li	$t4, 1
+mult:
+	move	$t1, $a1
+	li	$t5, 0
+loop:
+	slti	$t6, $t5, 32
+	beq	$t6, $zero, exit
+
+	and	$t6, $a1, $t0
+	beq	$t6, $zero, naosoma
+	add	$t8, $t8, $a0
+naosoma:
+	and	$t6, $t8, $t0
+	sll	$t6, $t6, 31
+	srl	$t8, $t8, 1
+	srl	$a1, $a1, 1
+	or	$a1, $a1, $t6
+	
+	addi	$t5, $t5, 1
+	j	loop 
+	
+exit:
+	xor	$t3, $t3, $t4
+	beq	$t3, $zero, fim
+
+	nor	$t8, $t8, $zero
+	nor	$a1, $a1, $zero
+	addi	$a1, $a1, 1
+fim:
+	mthi	$t8
+	mtlo	$a1
+	jr	$ra
